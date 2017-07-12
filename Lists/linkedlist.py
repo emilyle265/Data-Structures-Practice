@@ -9,19 +9,24 @@ class LinkedList:
         self.tail = None
 
     def add(self, data):
-        new_node = Node(data)
         current = self.head
+        new_node = Node(data)
 
-        if self.head is None:
+        if self.head == None:
             self.head = self.tail = new_node
         else:
-            # MEMORIZE THIS: adding to the end, before tail
+            while current.next is not None:
+                current = current.next
+            # add to front
+            # new_node.next = self.head
+            # self.head = new_node
+
+            # add to back
             new_node.next = None
             self.tail.next = new_node
             self.tail = new_node
-            # how to add to the beginning, before head?
-            # new_node.next = self.head
-            # self.head = new_node
+
+
 
     def remove(self, data):
         current = self.head
@@ -29,15 +34,7 @@ class LinkedList:
         while current.next is not None:
             if current.next.data == data:
                 current.next = current.next.next
-
-    def search(self, data):
-        current = self.head
-
-        while current is not None:
-            if current.data == data:
-                return True
-
-        return false
+            current = current.next
 
     def _print(self):
         current = self.head
@@ -45,3 +42,12 @@ class LinkedList:
         while current is not None:
             print current.data,
             current = current.next
+
+ll = LinkedList()
+ll.add(1)
+ll.add(2)
+ll.add(3)
+ll.add(4)
+ll.add(5)
+ll.add(6)
+ll.add(7)
