@@ -71,18 +71,35 @@ class BST:
         else:
             self.deleteNode(self.root, val)
 
-    # not working, need to figure this out....
     def deleteNode(self, currentNode, val):
-        # return false if we reach end of BST and value not found
-        if currentNode is None:
-            return False
-        elif val == currentNode.val:
-            currentNode.leftChild = None
-            currentNode.rightChild = None
-        elif val < currentNode.val:
-            return self.findNode(currentNode.leftChild, val)
+        # if root is empty, return None
+        if not currentNode:
+            return None
+
+        if currentNode.val > val:
+            currentNode.left = self.deleteNode(currentNode.leftChild, val)
+        elif currentNode.val < val:
+            currentNode.right = self.deleteNode(currentNode.rightChild, val)
         else:
-            return self.findNode(currentNode.rightChild, val)
+            # if currentNode.val == val, set current node to be the rightChild
+            if not currentNode.leftChild:
+                currentNode = currentNode.rightChild
+            # if currentNode.val == val, set current node to be the rightChild
+            elif not currentNode.rightChild:
+                currentNode = currentNode.leftChild
+            # if both children exist
+            else:
+                # known that currentNode has rightChild
+                successor = currentNode.rightChild
+                # keep moving down left children until you reach None
+                while successor.leftChild:
+                    successor = successor.leftChild
+
+                # successor has no left child
+                currentNode.val = successor.val
+                currentNode.right = self.deleteNode(currentNode.rightChild, successor.val)
+
+        return currentNode
 
     def _print(self):
         # start with self.root
@@ -103,10 +120,10 @@ class BST:
                 current_level = next_level
 
     def valid(self):
-        # an empty tree is valid
         if self.root is None:
             return True
 
+        # pass in -inf and inf because a root's values can't be beyond these
         return self.is_valid(self.root, float('-inf'), float('inf'))
 
     # returning False?
@@ -121,23 +138,28 @@ class BST:
         right_ok = True
 
         if currentNode.leftChild is not None:
+            # pass in currentNode.val for max for leftChild
             left_ok = self.is_valid(currentNode.leftChild, _min, currentNode.val)
+
         if currentNode.rightChild is not None:
+            # pass in currentNode.val for min for rightChild
             right_ok = self.is_valid(currentNode.rightChild, currentNode.val, _max)
 
+        # left_ok and right_ok must both be True to be valid
         return left_ok and right_ok
 
         
 
-    
-
 
 tree = BST()
-tree.setRoot(1)
+tree.setRoot(4)
 tree.insert(2)
 tree.insert(25)
 tree.insert(7)
 tree.insert(5)
 tree.insert(10)
 tree.insert(7)
-tree.insert(2)
+tree.insert(9)
+tree.insert(3)
+tree.insert(6)
+tree.insert(11)

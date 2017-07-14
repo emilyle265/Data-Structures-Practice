@@ -24,6 +24,6 @@ class HashTable:
             self.slots[hashvalue] = key
             self.data[hashvalue] = data
         else:
-            if the slot at hashvalue is already the key, replace the data.
+            # if the slot at hashvalue is already the key, replace the data.
             if self.slots[hashvalue] == key:
                 self.data[hashvalue] = data
