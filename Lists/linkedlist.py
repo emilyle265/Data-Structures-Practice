@@ -18,13 +18,13 @@ class LinkedList:
             while current.next is not None:
                 current = current.next
             # add to front
-            new_node.next = self.head
-            self.head = new_node
+            # new_node.next = self.head
+            # self.head = new_node
 
             # add to back
-            # new_node.next = None
-            # self.tail.next = new_node
-            # self.tail = new_node
+            new_node.next = None
+            self.tail.next = new_node
+            self.tail = new_node
 
 
     def remove(self, data):
@@ -54,16 +54,27 @@ class LinkedList:
             print current.data,
             current = current.next
 
+    def reverse(self):
+        prev = None
+        current = self.head
+        while current is not None:
+            next = current.next
+            current.next = prev
+            prev = current
+            current = next
+        self.head = prev
         
 
     
 ll = LinkedList()
 ll.add(1)
-ll.add(0)
+ll.add(2)
+ll.add(3)
+ll.add(4)
+ll.add(5)
 ll.add(6)
-ll.add(0)
-ll.add(0)
-ll.add(0)
-ll.add(1)
+ll.add(7)
+
+new_ll = LinkedList()
 
 
