@@ -161,14 +161,14 @@ class BST:
     ############################################################################
 
     #MIN SEARCH#################################################################
-
+    # not working yet
     def min(self):
         return self.minimum(self.root, float("inf"))
 
     def minimum(self, currentNode, _min):
-        if currentNode:
-            if currentNode.data < _min:
-                _min = currentNode.data
+        if currentNode is not None:
+            if currentNode.val < _min:
+                _min = currentNode.val
 
             self.minimum(currentNode.leftChild, _min)
             self.minimum(currentNode.rightChild, _min)
@@ -177,17 +177,17 @@ class BST:
     ############################################################################
 
     #MAX SEARCH#################################################################
-
+    # not working yet
     def max(self):
         return self.maximum(self.root, float("-inf"))
 
     def maximum(self, currentNode, _max):
-        if currentNode:
-            if currentNode.data > _max:
-                _max = currentNode.data
+        if currentNode is not None:
+            if currentNode.val > _max:
+                _max = currentNode.val
 
-            self.maxelement(currentNode.rightChild, _max)
-            self.maxelement(currentNode.leftChild, _max)
+            self.maximum(currentNode.rightChild, _max)
+            self.maximum(currentNode.leftChild, _max)
         return _max
 
     ##################H#########################################################
