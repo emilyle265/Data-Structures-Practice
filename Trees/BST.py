@@ -161,49 +161,38 @@ class BST:
     ############################################################################
 
     #MIN SEARCH#################################################################
-    # not working yet
-    def min(self):
-        return self.minimum(self.root, float("inf"))
-
-    def minimum(self, currentNode, _min):
-        if currentNode is not None:
-            if currentNode.val < _min:
-                _min = currentNode.val
-
-            self.minimum(currentNode.leftChild, _min)
-            self.minimum(currentNode.rightChild, _min)
-        return _min
-
+    def minValue(self):
+        current = self.root
+     
+        # loop down to find the lefmost leaf
+        while(current.leftChild is not None):
+            current = current.leftChild
+     
+        return current.val
     ############################################################################
 
     #MAX SEARCH#################################################################
-    # not working yet
-    def max(self):
-        return self.maximum(self.root, float("-inf"))
+    def maxValue(self):
+        current = self.root
+        while current.rightChild is not None:
+            current = current.rightChild
 
-    def maximum(self, currentNode, _max):
-        if currentNode is not None:
-            if currentNode.val > _max:
-                _max = currentNode.val
-
-            self.maximum(currentNode.rightChild, _max)
-            self.maximum(currentNode.leftChild, _max)
-        return _max
-
+        return current.val     
     ##################H#########################################################
 
     #Breadth FIRST SEARCH#######################################################
-
     def get_breadth_first_nodes(self):
-        nodes = []
-        stack = [self.root]
-        while stack:
-            cur_node = stack[0]
-            stack = stack[1:]
-            nodes.append(cur_node)
-            for child in cur_node.getChildren():
-                stack.append(child)
-        return nodes
+        thislevel = [self.root]
+        while thislevel:
+            nextlevel = list()
+            for n in thislevel:
+                print n.val,
+                if n.leftChild: 
+                    nextlevel.append(n.leftChild)
+                if n.rightChild: 
+                    nextlevel.append(n.rightChild)
+            print
+            thislevel = nextlevel
 
     ############################################################################
 
@@ -249,7 +238,6 @@ class BST:
             return max(self.height(currentNode.leftChild), self.height(currentNode.rightChild)) + 1
 
     ############################################################################
-            
 
 
 tree = BST()
