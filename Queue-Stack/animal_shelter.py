@@ -36,25 +36,30 @@ class AnimalShelterQueue:
 
     def adopt(self, species):
         if self.species == 'cat':
-            dequeueCat()
+            self.allCats.dequeueCat()
         elif self.species == 'dog':
-            dequeueDog()
+            self.allDogs.dequeueDog()
         else:
             dequeueAny()
 
 
     def dequeueAny(self):
-        return self.allAnimals.pop(0)
+        if self.allAnimals.isEmpty:
+            print "Animal shelter is empty!"
+        else:
+            return self.allAnimals.pop(0)
 
     # must also dequeueAny to remove from allAnimals list
     def dequeueDog(self):
-        dequeueAny()
-        return self.allDogs.pop(0)
+        if not self.allAnimals.isEmpty:
+            self.allAnimals.dequeueAny()
+            return self.allDogs.pop(0)
 
     # must also dequeueAny to remove from allAnimals list
     def dequeueCat(self):
-        dequeueAny()
-        return self.allCats.pop(0)
+        if not self.allAnimals.isEmpty:
+            self.allAnimals.dequeueAny()
+            return self.allCats.pop(0)
 
 
 

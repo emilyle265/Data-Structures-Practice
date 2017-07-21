@@ -31,6 +31,7 @@ class BST:
     def getRoot(self):
         return self.root
 
+    #INSERT NODE################################################################
     def insert(self, val):
         # always start with self.root
         if self.root is None:
@@ -49,7 +50,9 @@ class BST:
                 self.insertNode(currentNode.rightChild, val)
             else:
                 currentNode.rightChild = Node(val)
+    ############################################################################
 
+    #FIND NODE##################################################################
     def find(self, val):
         # always start with self.root
         return self.findNode(self.root, val)
@@ -64,7 +67,9 @@ class BST:
             return self.findNode(currentNode.leftChild, val)
         else:
             return self.findNode(currentNode.rightChild, val)
+    ############################################################################
 
+    #DELETE NODE################################################################
     def delete(self, val):
         if self.root is None:
             return None
@@ -77,9 +82,9 @@ class BST:
             return None
 
         if currentNode.val > val:
-            currentNode.left = self.deleteNode(currentNode.leftChild, val)
+            currentNode.leftChild = self.deleteNode(currentNode.leftChild, val)
         elif currentNode.val < val:
-            currentNode.right = self.deleteNode(currentNode.rightChild, val)
+            currentNode.rightChild = self.deleteNode(currentNode.rightChild, val)
         else:
             # if currentNode.val == val, set current node to be the rightChild
             if not currentNode.leftChild:
@@ -97,10 +102,12 @@ class BST:
 
                 # successor has no left child
                 currentNode.val = successor.val
-                currentNode.right = self.deleteNode(currentNode.rightChild, successor.val)
+                currentNode.rightChild = self.deleteNode(currentNode.rightChild, successor.val)
 
         return currentNode
+    ############################################################################
 
+    #PRINT BST##################################################################
     def _print(self):
         # start with self.root
         current_level = [self.root]
@@ -119,6 +126,9 @@ class BST:
                 # update current_level by setting it to next_level
                 current_level = next_level
 
+    ############################################################################
+
+    #CHECK IF BST IS VALID######################################################
     def valid(self):
         if self.root is None:
             return True
@@ -148,7 +158,98 @@ class BST:
         # left_ok and right_ok must both be True to be valid
         return left_ok and right_ok
 
-        
+    ############################################################################
+
+    #MIN SEARCH#################################################################
+
+    def min(self):
+        return self.minimum(self.root, float("inf"))
+
+    def minimum(self, currentNode, _min):
+        if currentNode:
+            if currentNode.data < _min:
+                _min = currentNode.data
+
+            self.minimum(currentNode.leftChild, _min)
+            self.minimum(currentNode.rightChild, _min)
+        return _min
+
+    ############################################################################
+
+    #MAX SEARCH#################################################################
+
+    def max(self):
+        return self.maximum(self.root, float("-inf"))
+
+    def maximum(self, currentNode, _max):
+        if currentNode:
+            if currentNode.data > _max:
+                _max = currentNode.data
+
+            self.maxelement(currentNode.rightChild, _max)
+            self.maxelement(currentNode.leftChild, _max)
+        return _max
+
+    ##################H#########################################################
+
+    #Breadth FIRST SEARCH#######################################################
+
+    def get_breadth_first_nodes(self):
+        nodes = []
+        stack = [self.root]
+        while stack:
+            cur_node = stack[0]
+            stack = stack[1:]
+            nodes.append(cur_node)
+            for child in cur_node.getChildren():
+                stack.append(child)
+        return nodes
+
+    ############################################################################
+
+    #DEPTH FIRST SEARCH#########################################################
+    def dfs(self):
+        if self.root is None:
+            return []
+        visited, stack = [], [self.root]
+        while stack:
+            node = stack.pop()
+            visited.append(node)
+            # Extend - extends list by appending elements from the iterable.
+            # Filter - Construct a list from those elements of iterable for which 
+            # function returns true.
+            stack.extend(filter(None, [node.rightChild, node.leftChild]))  
+            # append right first, so left will be popped first
+
+        for visit in visited:
+            print visit.val
+        return visited
+
+    def recur_dfs(self):
+        return self.recursive_dfs(self.root)
+
+    def recursive_dfs(self, currentNode):
+        nodes = []
+        if(currentNode != None):
+            nodes.append(currentNode.val)
+            nodes.extend(self.recursive_dfs(currentNode.leftChild))
+            nodes.extend(self.recursive_dfs(currentNode.rightChild))
+        return nodes
+    ############################################################################
+
+    #HEIGHT COUNT###############################################################
+
+    def get_height(self):
+        return self.height(self.root)
+
+    def height(self, currentNode):
+        if currentNode is None:
+            return 0
+        else:
+            return max(self.height(currentNode.leftChild), self.height(currentNode.rightChild)) + 1
+
+    ############################################################################
+            
 
 
 tree = BST()

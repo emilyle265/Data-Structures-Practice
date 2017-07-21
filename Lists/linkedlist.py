@@ -63,7 +63,6 @@ class LinkedList:
             prev = current
             current = next
         self.head = prev
-        
 
     
 ll = LinkedList()
